@@ -121,3 +121,12 @@ The specific ROS Noetic image to use:
 ```bash
 osrf/ros:noetic-desktop-full
 ```
+**-**
+Αμα θελω να βαλω volume:
+```bash
+-v [Φάκελος στο Laptop ΣΟΥ] : [Φάκελος ΜΕΣΑ στο Container] : [Δικαιώματα]
+πχ
+-v /home/vassil/ros_projects:/root/catkin_ws:rw
+```
+Ό,τι αρχείο βάζεις στον έναν φάκελο, εμφανίζεται αυτόματα στον άλλον. Αν σβήσεις το Container, ο φάκελος στο Laptop σου μένει ανέπαφος!
+
