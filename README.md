@@ -4,28 +4,28 @@ This repository contains a quick reference for essential Docker commands and a s
 
 ## 🐳 Basic Commands
 
-### Container Status
-Check the status of your containers.
-
+Displays the currently active (running) containers:
 ```bash
-# List currently running (active) containers
 docker ps
+```
 
-# List ALL containers (active and inactive/stopped)
+Displays all containers, including those that are inactive or stopped:
+```bash
 docker ps -a
 ```
 
-### Image Management
-Commands to manage Docker images.
-
+Downloads (pulls) the specified image from Docker Hub:
 ```bash
-# Download (pull) an image from Docker Hub
 docker pull docker/welcome-to-docker
+```
 
-# List all downloaded images on your machine
+Lists all the Docker images currently downloaded on your machine:
+```bash
 docker image ls
+```
 
-# View the layers of a specific image
+Shows the history of layers for a specific image:
+```bash
 docker image history docker/welcome-to-docker
 ```
 
@@ -33,24 +33,41 @@ docker image history docker/welcome-to-docker
 
 ## 🔄 The Docker Workflow
 
-The standard lifecycle of a containerized application: **Build → Run → Manage → Clean.**
+The standard lifecycle: Build → Run → Check → Stop → Delete.
 
-| Action | Command | Description |
-| :--- | :--- | :--- |
-| **Build** | `docker build -t <name> .` | Creates an image from a Dockerfile ("The Recipe"). |
-| **Run** | `docker run -dp 3000:3000 <name>` | Starts the application. <br>`-d`: Detached mode (background). <br>`-p`: Maps host port to container port. |
-| **Check** | `docker ps` | Verifies the container is running. |
-| **Stop** | `docker stop <container_id>` | Stops a running container. |
-| **Delete** | `docker rm <container_id>` | Removes the container file system. |
+Creates (builds) an image from a Dockerfile (the recipe) in the current directory:
+```bash
+docker build -t <name> .
+```
+
+Starts the application in the background and maps port 3000 to 3000:
+```bash
+docker run -dp 3000:3000 <name>
+```
+
+Checks to see what is currently running:
+```bash
+docker ps
+```
+
+Stops a specific container using its ID:
+```bash
+docker stop <id>
+```
+
+Removes (deletes) a specific container using its ID:
+```bash
+docker rm <id>
+```
 
 ---
 
 ## 🤖 Advanced Usage: ROS with GUI & GPU Support
 
-The following command is used to run a ROS Noetic container with full desktop support, NVIDIA GPU acceleration, and X11 forwarding (to view graphical interfaces like Rviz or Gazebo).
+Use the following configuration to run ROS Noetic with full desktop support.
 
-### The Command
-
+### The Full Command
+This command runs the container with a custom name, display forwarding, GPU access, and network sharing:
 ```bash
 docker run --name ros1_talos2 \
   -e DISPLAY=$DISPLAY \
@@ -63,16 +80,44 @@ docker run --name ros1_talos2 \
 
 ### Flag Breakdown
 
-| Flag | Explanation |
-| :--- | :--- |
-| `--name ros1_talos2` | **Custom Name:** Assigns a specific name to the container so you don't have to rely on the random ID. |
-| `-e DISPLAY=$DISPLAY` | **Environment Variable:** Passes the host's display ID (e.g., `:0` or `:1`) to the container, allowing it to know where to send graphical output. |
-| `--gpus all` | **GPU Access:** Grants the container access to all available GPUs (requires NVIDIA Container Toolkit). |
-| `-v /tmp/.X11-unix...` | **Volume Mount:** Mounts the X11 socket from the host to the container. This creates the physical connection required for the GUI to render on your screen. |
-| `--net=host` | **Network:** Uses the host's network stack directly. Since ROS uses many random ports for communication, this is easier than mapping ports individually. |
-| `-it` | **Interactive TTY:** Allocates a pseudo-TTY and keeps stdin open, allowing you to interact with the command line inside the container. |
-| `osrf/ros:noetic...` | **The Image:** The specific Docker image to run. |
+**--name**
+Assigns a custom name so you don't have to use a random ID:
+```bash
+--name ros1_talos2
+```
 
-### Optional Startup Command
-You can append a command at the very end of the `docker run` string to execute it immediately upon startup.
-*Example:* Adding `nvidia-smi` at the end would print GPU statistics and then exit.
+**-e**
+Sets the environment variable to forward the host display to the container:
+```bash
+-e DISPLAY=$DISPLAY
+```
+
+**--gpus**
+Grants the container access to all available GPUs (requires NVIDIA Container Toolkit):
+```bash
+--gpus all
+```
+
+**-v**
+Mounts the X11 socket volume to allow the GUI to connect to your screen:
+```bash
+-v /tmp/.X11-unix:/tmp/.X11-unix:rw
+```
+
+**-it**
+Allocates a pseudo-TTY and keeps stdin open (interactive mode):
+```bash
+-it
+```
+
+**--net**
+Uses the host's network stack directly (simplifies ROS port management):
+```bash
+--net=host
+```
+
+**Image**
+The specific ROS Noetic image to use:
+```bash
+osrf/ros:noetic-desktop-full
+```
