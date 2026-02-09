@@ -129,4 +129,28 @@ osrf/ros:noetic-desktop-full
 -v /home/vassil/ros_projects:/root/catkin_ws:rw
 ```
 Ό,τι αρχείο βάζεις στον έναν φάκελο, εμφανίζεται αυτόματα στον άλλον. Αν σβήσεις το Container, ο φάκελος στο Laptop σου μένει ανέπαφος!
+.
+.
+**ΟΤΑΚ ΚΑΝΩ CLONE CONTAINER**
 
+Step 2: Commit the Changes
+Use the docker commit command to take a snapshot of that container and save it as a new image.￼
+
+Syntax:
+docker commit [CONTAINER_ID] [NEW_IMAGE_NAME]
+
+Example:
+
+Bash
+￼
+docker commit 1a2b3c4d5e6f my-ros-backup-image
+This pauses the container for a moment to ensure data consistency and writes the new image to your local library.
+EINAI OK NA MH DEIKSEI TIPOTA APLWS NA EINAI MIA KENH GRAMMH
+**SHMANTIKO** TO COMMIT DEN APOUHKEYEI KAI TA VARIABLES TOY RUN MONO TA ARXEIA OPOTE PREPEI NA KSEKINISW TO KLWNO OPWS KSEKINHSA KAI TO ORIGINAL CONTAINER ARA
+docker run --name ros1_talos2 \
+  -e DISPLAY=$DISPLAY \
+  --gpus all \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -it \
+  --net=host \
+  51f1b777c9a2 bash
