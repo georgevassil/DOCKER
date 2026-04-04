@@ -141,11 +141,13 @@ docker commit [CONTAINER_ID] [NEW_IMAGE_NAME]
 
 Example:
 
-Bash
-￼
+```bash
 docker commit 1a2b3c4d5e6f my-ros-backup-image
+```
 This pauses the container for a moment to ensure data consistency and writes the new image to your local library.
+
 EINAI OK NA MH DEIKSEI TIPOTA APLWS NA EINAI MIA KENH GRAMMH
+
 **SHMANTIKO** TO COMMIT DEN APOUHKEYEI KAI TA VARIABLES TOY RUN MONO TA ARXEIA OPOTE PREPEI NA KSEKINISW TO KLWNO OPWS KSEKINHSA KAI TO ORIGINAL CONTAINER ARA
 docker run --name ros1_talos2 \
   -e DISPLAY=$DISPLAY \
@@ -154,3 +156,20 @@ docker run --name ros1_talos2 \
   -it \
   --net=host \
   51f1b777c9a2 bash
+
+
+
+  tsekare auto
+  ```bash
+docker run -d \
+  --name ros_noetic_widowxl \
+  --gpus all \
+  -e DISPLAY=$DISPLAY \
+  -e QT_X11_NO_MITSHM=1 \
+  -e NVIDIA_DRIVER_CAPABILITIES=all \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v ./src:/root/catkin_ws/src \
+  --network host \
+  -it \
+  ros_noetic_widowxl_img
+```
